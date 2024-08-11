@@ -1,0 +1,25 @@
+#include <iostream>
+#include <string>
+
+char findTheDifference(std::string s, std::string t) {
+    char result = 0;
+    for (char c : s) {
+        result ^= c;
+    }
+    for (char c : t) {
+        result ^= c;
+    }
+    return result;
+}
+
+int main() {
+    std::string s1 = "abcd";
+    std::string t1 = "abcde";
+    std::cout << findTheDifference(s1, t1) << std::endl; // Output: "e"
+
+    std::string s2 = "";
+    std::string t2 = "y";
+    std::cout << findTheDifference(s2, t2) << std::endl; // Output: "y"
+
+    return 0;
+}
