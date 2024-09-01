@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        if(s.length() != t.length()) return false;
+        unordered_map<char,char>mp;
+        for(int i=0;i<s.length();i++)
+        {
+            char orig = s[i];
+            char rep = t[i];
+            if(mp.find(orig)==mp.end()){
+                if(find_if(mp.begin(),mp.end(),
+                [&rep](const pair<char,char>&p){return p.second == rep;})==mp.end())
+                {
+                    mp[orig]=rep;
+                }else return false;
+            }else
+            {
+                char mp_char = mp[orig];
+                if(mp_char != rep) return false;
+            }
+
+        }
+        return true;
+    }
+};
