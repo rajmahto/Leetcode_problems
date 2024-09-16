@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int findMinDifference(vector<string>& timePoints) {
+        bool mins[24 * 60];
+        for (string time : timePoints) {
+            int h = atoi(time.substr(0, 2).c_str());
+            int m = atoi(time.substr(3, 2).c_str());
+            int mintues = h * 60 + m;
+            if (mins[mintues])
+                return 0;
+            mins[mintues] = true;
+        }
+        int prev = -1;
+        int minDiff = INT_MAX;
+        int firstval = -1;
+        for (int cur = 0; cur < 24 * 60; cur++) {
+            if (mins[cur]) {
+                if (prev == -1) {
+                    firstval = cur;
+                    prev = cur;
+                } else {
+                    minDiff = min(minDiff, cur - prev);
+                    prev = cur;
+                }
+            }
+        }
+        if (prev != -1) {
+            minDiff = min(minDiff, 1440 + firstval - prev);
+        }
+        return minDiff;
+    }
+};
