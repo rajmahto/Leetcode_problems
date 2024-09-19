@@ -1,0 +1,52 @@
+class Solution {
+public:
+    vector<int> diffWaysToCompute(string expression) {
+        return recur(expression, 0, expression.size() - 1);
+    }
+
+private:
+    vector<int> recur(string exp, int start, int end) {
+        vector<int> res;
+
+        // Base case: single digit or number
+        if (start == end) {
+            int num = exp[start] - '0';
+            res.push_back(num);
+            return res;
+        }
+
+        // Handle two-character numbers (e.g., "10", "23")
+        if (end - start == 1 && isdigit(exp[start])) {
+            int num = stoi(exp.substr(start, end - start + 1));
+            res.push_back(num);
+            return res;
+        }
+
+        // Recursively process the expression
+        for (int i = start; i <= end; i++) {
+            if (isdigit(exp[i])) {
+                continue;
+            }
+
+            // Divide and conquer: split the expression around the operator
+            vector<int> left = recur(exp, start, i - 1);
+            vector<int> right = recur(exp, i + 1, end);
+
+            // Perform the operation based on the operator at `exp[i]`
+            char op = exp[i];
+            for (int l : left) {
+                for (int r : right) {
+                    if (op == '*') {
+                        res.push_back(l * r);
+                    } else if (op == '+') {
+                        res.push_back(l + r);
+                    } else if (op == '-') {
+                        res.push_back(l - r);
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+};
