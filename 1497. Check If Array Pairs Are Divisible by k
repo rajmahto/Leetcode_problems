@@ -1,0 +1,20 @@
+class Solution {
+public:
+    bool canArrange(vector<int>& arr, int k) {
+        vector<int>a(k,0);
+        for(int ele:arr){
+            int rem = ((ele % k) + k) % k;
+            a[rem]++;
+        }
+        if(a[0] % 2 != 0){
+            return false;
+        }
+        for(int rem = 1; rem <= k / 2; rem++){
+            int com = k - rem;
+            if(a[rem] != a[com]){
+                return false;
+            }
+        }
+        return true;
+    }
+};
