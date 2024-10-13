@@ -1,0 +1,47 @@
+#include <vector>
+#include <queue>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        auto compare = [](const vector<int>& a, const vector<int>& b) {
+            return a[0] > b[0];
+        };
+        
+        priority_queue<vector<int>, vector<vector<int>>, decltype(compare)> pq(compare);
+
+        int k = nums.size();
+        int maxVal = INT_MIN;
+
+        for (int i = 0; i < k; i++) {
+            int minVal = nums[i][0];
+            pq.push({minVal, i, 0});
+            maxVal = max(maxVal, minVal);
+        }
+
+        vector<int> minRange = {0, INT_MAX};
+
+        while (true) {
+            vector<int> top = pq.top();
+            pq.pop();
+
+            int minElement = top[0], listIndex = top[1], elementIndex = top[2];
+
+            if (maxVal - minElement < minRange[1] - minRange[0]) {
+                minRange[0] = minElement;
+                minRange[1] = maxVal;
+            }
+
+            if (elementIndex == nums[listIndex].size() - 1) break;
+
+            int next = nums[listIndex][elementIndex + 1];
+            maxVal = max(maxVal, next);
+            pq.push({next, listIndex, elementIndex + 1});
+        }
+
+        return minRange;
+    }
+};
