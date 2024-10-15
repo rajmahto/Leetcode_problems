@@ -1,0 +1,15 @@
+class Solution {
+public:
+    long long minimumSteps(string s) {
+        int cur = 0;
+        int last = 0;
+        long SwapCnt = 0;
+        for(int cur = 0; cur < s.length(); cur++){
+            if(s[cur] == '0'){
+                SwapCnt += (cur - last);
+                last++;
+            }
+        }
+        return SwapCnt;
+    }
+};
